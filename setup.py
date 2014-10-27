@@ -12,8 +12,8 @@ setup(
     classifiers=[
         "Programming Language :: Python",
     ],
-    platforms='linux',
+    platforms='any',
     keywords='splunk clustering docker',
     packages=find_packages(exclude=['test']),
-    install_requires=[]
+    install_requires=['docker-py']
 )

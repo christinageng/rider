@@ -18,6 +18,14 @@ class BuildCommand(Command):
             help="the splunk.tar.gz local path"
         ))
 
+        self.parser.add_option(Option(
+            '--image-name',
+            dest='image_name',
+            action='store',
+            default="coreqa/splunk:clustering",
+            help="the new name of the image"
+        ))
+
 
     def run(self, args):
         options, arg_else = self.parse_args(args)
