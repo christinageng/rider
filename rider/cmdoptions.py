@@ -26,3 +26,24 @@ class OptionMaker(object):
         args_copy = copy.deepcopy(self.args)
         kwargs_copy = copy.deepcopy(self.kwargs)
         return Option(*args_copy, **kwargs_copy)
+
+
+help_ = OptionMaker(
+    '-h', '--help',
+    dest='help',
+    action='help',
+    help='Show help.')
+
+version = OptionMaker(
+    '-V', '--version',
+    dest='version',
+    action='store_true',
+    help='Show version and exit.')
+
+general_group = {
+    'name': 'General Options',
+    'options': [
+        help_,
+        version
+    ]
+}

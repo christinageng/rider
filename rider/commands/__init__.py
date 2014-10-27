@@ -1,7 +1,13 @@
 from rider.commands.build import BuildCommand
+from rider.commands.clean import CleanCommand
+from rider.commands.provision import ProvisionCommand
+from rider.commands.status import StatusCommand
 
 commands = {
-    BuildCommand.name: BuildCommand
+    BuildCommand.name: BuildCommand,
+    CleanCommand.name: CleanCommand,
+    ProvisionCommand.name: ProvisionCommand,
+    StatusCommand.name: StatusCommand
 }
 
 
