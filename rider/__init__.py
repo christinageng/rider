@@ -1,21 +1,12 @@
-#!/usr/bin/python
-# coding:utf8
-
-'''
-@author: shaoyuliang
-@contact: mshao@splunk.com
-@since: 7/16/14
-
-'''
-
 import sys
-from optparse import BadOptionError
+from optparse import OptionParser, BadOptionError
 
 import os
+from rider import commands
 
 
 def create_main_parser():
-    pass
+    parser = OptionParser()
 
 
 def parse_opts(args):
@@ -34,3 +25,14 @@ def main():
         sys.stderr.write(str(e))
         sys.stderr.write(os.linesep)
         sys.exit(1)
+
+    command = commands[cmd_name]()
+    command.execute(cmd_args)
+
+
+# ########################
+# #### just for test  ####
+# ########################
+
+if __name__ == "__main__":
+    main()

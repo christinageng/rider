@@ -1,10 +1,15 @@
-#!/usr/bin/python
-# coding:utf8
+from rider.commands.build import BuildCommand
 
-'''
-@author: shaoyuliang
-@contact: mshao@splunk.com
-@since: 7/16/14
+commands = {
+    BuildCommand.name: BuildCommand
+}
 
-'''
 
+def get_summaries(ignore_hidden=True, ordered=True):
+    """Yields sorted (command name, command summary) tuples."""
+
+    cmd_items = commands.items()
+    for name, command_class in cmd_items:
+        if ignore_hidden and command_class.hidden:
+            continue
+        yield (name, command_class.summary)

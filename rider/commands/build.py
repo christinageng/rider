@@ -1,10 +1,9 @@
-#!/usr/bin/python
-# coding:utf8
+from rider.commands.base import Command
 
-'''
-@author: shaoyuliang
-@contact: mshao@splunk.com
-@since: 7/16/14
 
-'''
+class BuildCommand(Command):
+    def __init__(self):
+        super(BuildCommand, self).__init__()
 
+    def run(self, args):
+        pass
