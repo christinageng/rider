@@ -14,7 +14,7 @@ FALSE_BOOLEAN = ("NO", "N")
 
 
 def get_prog():
-    return 'pagrant'
+    return 'rider'
 
 
 def get_terminal_size():

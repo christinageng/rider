@@ -20,4 +20,4 @@ class BuildCommand(Command):
 
 
     def run(self, args):
-        pass
+        options, arg_else = self.parse_args(args)
