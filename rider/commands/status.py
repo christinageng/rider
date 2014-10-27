@@ -8,3 +8,6 @@ class StatusCommand(Command):
 
     def __init__(self):
         super(StatusCommand, self).__init__()
+
+    def run(self, args):
+        pass

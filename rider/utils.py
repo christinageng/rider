@@ -1,5 +1,7 @@
 import sys
 import traceback
+import time
+import httplib
 
 import os
 
@@ -56,7 +58,7 @@ def get_userinput(msg, retry=3):
         if resp.upper() in TRUE_BOOLEAN + FALSE_BOOLEAN:
             break
     else:
-        sys.stderr.write("The pagrant could been created due to the user's wrong input\n")
+        sys.stderr.write("The knight could been created due to the user's wrong input\n")
         sys.exit(1)
     return resp
 
@@ -73,17 +75,23 @@ def format_exc(exc_info=None):
     return out.getvalue()
 
 
-def docker_client():
-    import ssl
-    import docker
+def health_check(host, port, timeout, https=True):
+    start_time = time.time()
+    while (time.time() - start_time) < timeout:
+        if https:
+            conn = httplib.HTTPSConnection(host, port)
+        else:
+            conn = httplib.HTTPConnection(host, port)
 
-    boot2docker = "192.168.59.103:2376"
+        try:
+            conn.request("GET", "/")
+            res = conn.getresponse()
+            if res.status == 200:
+                return True
+            else:
+                time.sleep(2)
+        except:
+            time.sleep(2)
+    else:
+        return False
 
-    tls_config = docker.tls.TLSConfig(verify='/Users/weiwang/.boot2docker/certs/boot2docker-vm/ca.pem',
-                                      client_cert=('/Users/weiwang/.boot2docker/certs/boot2docker-vm/cert.pem',
-                                                   '/Users/weiwang/.boot2docker/certs/boot2docker-vm/key.pem'),
-                                      ssl_version=ssl.PROTOCOL_TLSv1,
-                                      assert_hostname=False)
-
-    client = docker.Client(base_url='https://192.168.59.103:2376', tls=tls_config)
-    return client

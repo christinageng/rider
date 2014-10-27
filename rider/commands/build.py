@@ -15,11 +15,11 @@ class BuildCommand(Command):
     def __init__(self):
         super(BuildCommand, self).__init__()
         self.parser.add_option(Option(
-            '--splunk-tar',
+            '--splunk-pkg',
             dest='splunk_pkg',
             action='store',
             default=None,
-            help="the splunk.tar.gz local path"
+            help="the splunk.tgz local path"
         ))
 
         self.parser.add_option(Option(
@@ -35,12 +35,10 @@ class BuildCommand(Command):
         try:
             options, arg_else = self.parse_args(args)
         except BadOptionError:
+            self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
             sys.exit(1)
 
         temp_build_path = tempfile.mkdtemp()
-        dockerbuild_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dockerbuild"))
+        docker_build_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dockerbuild"))
 
-        print dockerbuild_path
-        print temp_build_path
-
-        shutil.copytree(os.path.join(dockerbuild_path, "cluster"), os.path.join(temp_build_path, "cluster"))
+        shutil.copytree(os.path.join(docker_build_path, "cluster"), os.path.join(temp_build_path, "cluster"))
