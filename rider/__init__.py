@@ -3,7 +3,7 @@ from optparse import BadOptionError
 
 import os
 from rider.cmdparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
-from rider import commands
+from rider.commands import commands, get_summaries
 from rider import cmdoptions
 from rider.utils import get_prog
 from rider.version import version_number
@@ -26,7 +26,7 @@ def create_main_parser():
     parser.add_option_group(gen_opts)
 
     # create command listing for description
-    command_summaries = commands.get_summaries()
+    command_summaries = get_summaries()
     description = [''] + ['%-27s %s' % (i, j) for i, j in command_summaries]
     parser.description = '\n'.join(description)
     parser.main = True  # so the help formatter knows
