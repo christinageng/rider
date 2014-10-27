@@ -71,3 +71,20 @@ def format_exc(exc_info=None):
     out = StringIO()
     traceback.print_exception(*exc_info, **dict(file=out))
     return out.getvalue()
+
+
+def docker_client():
+    import ssl
+    import docker
+
+
+    boot2docker = "192.168.59.103:2376"
+
+    tls_config = docker.tls.TLSConfig(verify='/Users/weiwang/.boot2docker/certs/boot2docker-vm/ca.pem',
+                                      client_cert=('/Users/weiwang/.boot2docker/certs/boot2docker-vm/cert.pem',
+                                                   '/Users/weiwang/.boot2docker/certs/boot2docker-vm/key.pem'),
+                                      ssl_version=ssl.PROTOCOL_TLSv1,
+                                      assert_hostname=False)
+
+    client = docker.Client(base_url='https://192.168.59.103:2376', tls=tls_config)
+    return client
