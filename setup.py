@@ -15,5 +15,12 @@ setup(
     platforms='any',
     keywords='splunk clustering docker',
     packages=find_packages(exclude=['test']),
-    install_requires=['docker-py']
+    include_package_data=True,
+    package_data={
+        'package': [
+            '*.sh',
+            'Dockerfile'
+        ],
+    },
+    install_requires=["docker-py"]
 )

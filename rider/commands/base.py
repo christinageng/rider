@@ -57,9 +57,8 @@ class Command(object):
 
         try:
             self.run(args)
-        except Exception:
-            self.logger.fatal("ERROR: %s" % str(sys.exc_info()[1]))
+        except Exception,e:
+            print e
             sys.exit(1)
         except KeyboardInterrupt:
-            self.logger.fatal("The user interrupt the test case execution")
             sys.exit(1)
