@@ -77,7 +77,6 @@ def docker_client():
     import ssl
     import docker
 
-
     boot2docker = "192.168.59.103:2376"
 
     tls_config = docker.tls.TLSConfig(verify='/Users/weiwang/.boot2docker/certs/boot2docker-vm/ca.pem',

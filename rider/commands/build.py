@@ -1,5 +1,9 @@
-from optparse import Option
+import sys
+import tempfile
+import shutil
+from optparse import Option, BadOptionError
 
+import os
 from rider.commands.base import Command
 
 
@@ -28,4 +32,15 @@ class BuildCommand(Command):
 
 
     def run(self, args):
-        options, arg_else = self.parse_args(args)
+        try:
+            options, arg_else = self.parse_args(args)
+        except BadOptionError:
+            sys.exit(1)
+
+        temp_build_path = tempfile.mkdtemp()
+        dockerbuild_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dockerbuild"))
+
+        print dockerbuild_path
+        print temp_build_path
+
+        shutil.copytree(os.path.join(dockerbuild_path, "cluster"), os.path.join(temp_build_path, "cluster"))

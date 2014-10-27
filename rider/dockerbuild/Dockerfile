@@ -1,5 +1,5 @@
 FROM tutum/ubuntu
-COPY {{ splunk.home }} /tmp/splunk.tgz
+COPY splunk.tgz /tmp/splunk.tgz
 WORKDIR /tmp
 RUN tar zxvf splunk.tgz
 VOLUME /splunkdb
