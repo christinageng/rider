@@ -1,6 +1,5 @@
 import sys
 import optparse
-import copy
 
 from rider import cmdoptions
 from rider.cmdparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
@@ -53,20 +52,13 @@ class Command(object):
             The main interface for exectute the command
         """
 
-        args_bk = copy.deepcopy(args)
+        if not args:
+            self.parser.print_help()
 
         try:
-            options = None
-            if not self.skip_parse or len(args) == 0 or args[0] in ("-h", "--help"):
-                options, args = self.parse_args(args)
-        except (optparse.OptionError, optparse.BadOptionError), e:
-            options = None
-
-        try:
-            self.run(args_bk)
+            self.run(args)
         except Exception:
             self.logger.fatal("ERROR: %s" % str(sys.exc_info()[1]))
-            # self.logger.error('Exception information:\n%s' % format_exc())
             sys.exit(1)
         except KeyboardInterrupt:
             self.logger.fatal("The user interrupt the test case execution")
