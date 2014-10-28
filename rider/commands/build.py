@@ -64,5 +64,5 @@ class BuildCommand(Command):
 
             self.logger.warn("successfully build the image %s" % options.image_name)
         finally:
-            os.remove(temp_build_path)
+            shutil.rmtree(temp_dockerbuild_path)
             self.logger.info("remove the dockerbuild folder %s " % temp_build_path)
