@@ -27,7 +27,7 @@ class BuildCommand(Command):
             '--image-name',
             dest='image_name',
             action='store',
-            default="coreqa/splunk:clustering",
+            default="10.66.128.203:49153/coreqa/splunk:clustering",
             help="the new name of the image"
         ))
 
@@ -40,10 +40,15 @@ class BuildCommand(Command):
             self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
             return
 
+        # check the splunk file existed
+        if not os.path.exists(options.splunk_pkg):
+            self.logger.warn("please specify the splunk.tgz file path")
+            return
+
         # check the image whether existed
         result = self.docker_client.images(name=options.image_name)
         if len(result) > 0:
-            self.logger.warn("the image already existed , pls first delete the image then try to build it ")
+            self.logger.error("the image already existed , pls first delete the image then try to build it ")
             return
 
         try:
