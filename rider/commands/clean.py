@@ -20,8 +20,8 @@ class CleanCommand(Command):
             for key in container_infos.keys():
                 for container in container_infos[key]:
                     try:
-                        self.docker_client.stop(container["cid"])
-                        self.docker_client.remove_container(container["cid"])
+                        self.docker_client.stop(container["cid"], timeout=5 * 60)
+                        self.docker_client.remove_container(container["cid"], v=True, link=True, force=True)
                         self.logger.error("successfully to remove the container [%s]" % container["name"])
                     except:
                         self.logger.error("fail to remove the container [%s]" % container["name"])
