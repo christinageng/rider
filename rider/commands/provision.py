@@ -77,22 +77,22 @@ class ProvisionCommand(Command):
                                                                              {
                                                                                  'bind': '/license',
                                                                                  'ro': False}})
-            time.sleep(3)  # some work round
+            time.sleep(5)  # some work round
 
         # decide the links if the license_master is not existed
-        links = [(master_name, 'master')] if not options.license_file else links = [(license_master_name, 'lm'),
-                                                                                    (master_name, 'master')]
+        links = [(master_name, 'master')] if not options.license_file else [(license_master_name, 'lm'),
+                                                                            (master_name, 'master')]
         # create indexer
         for i in range(0, int(options.indexer_num)):
             container_name, container = scf.create_container(image=options.image_name, role=ROLE["INDEXER"],
                                                              command="indexer",
                                                              links=links
             )
-            time.sleep(2)  # some work round
+            time.sleep(3)  # some work round
 
         # create search head
         for i in range(0, int(options.sh_num)):
             container_name, container = scf.create_container(image=options.image_name, role=ROLE["SEARCHHEAD"],
                                                              command="sh",
                                                              links=links)
-            time.sleep(2)  # some work round
+            time.sleep(3)  # some work round

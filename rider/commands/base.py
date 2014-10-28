@@ -54,9 +54,6 @@ class Command(object):
             The main interface for exectute the command
         """
 
-        if not args:
-            self.parser.print_help()
-
         try:
             self.run(args)
         except Exception, e:
