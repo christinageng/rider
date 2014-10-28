@@ -8,7 +8,7 @@ setup(
     author='jackWang,markShao',
     author_email='jackw@splunk.com',
     description='',
-    scripts=['bin/rider'],
+    scripts=['bin/knight'],
     classifiers=[
         "Programming Language :: Python",
     ],
