@@ -25,3 +25,4 @@ class CleanCommand(Command):
                         self.logger.error("successfully to remove the container [%s]" % container["name"])
                     except:
                         self.logger.error("fail to remove the container [%s]" % container["name"])
+            os.remove(os.path.abspath(KNIGHT_FILE))

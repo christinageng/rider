@@ -56,7 +56,7 @@ class BuildCommand(Command):
             shutil.copyfile(options.splunk_pkg, os.path.join(temp_build_path, "dockerbuild", "splunk.tgz"))
 
             # build the image
-            yield_result = self.docker_client.build(path=temp_dockerbuild_path, tag="mark/splunk",
+            yield_result = self.docker_client.build(path=temp_dockerbuild_path, tag=options.image_name,
                                                     stream=True, rm=True)
             for result in yield_result:
                 if not len(result) == 0:

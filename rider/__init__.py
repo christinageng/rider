@@ -70,7 +70,12 @@ def main():
         sys.stderr.write(os.linesep)
         sys.exit(1)
 
-    command = commands[cmd_name]()
+    try:
+        command = commands[cmd_name]()
+    except KeyError:
+        sys.stderr.write("The command %s not support\n" % cmd_name)
+        sys.exit(1)
+
     command.execute(cmd_args)
 
 

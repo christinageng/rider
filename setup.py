@@ -22,5 +22,7 @@ setup(
             'Dockerfile'
         ],
     },
-    install_requires=["docker-py"]
+    install_requires=["docker-py",
+                      "tabulate",
+                      "colorama"]
 )
