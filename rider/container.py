@@ -58,7 +58,7 @@ class SplunkContainerFactory(object):
         )
         self.docker.start(result["Id"], links=links, binds=binds, publish_all_ports=True)
         detail = self.docker.inspect_container(result["Id"])
-        container = SplunkContainer(result["Id"], detail)
+        container = SplunkContainer(result["Id"], role, detail)
         if not container.health_check():
             logger.error("start the container fail ,rollback the container")
             try:
@@ -73,8 +73,9 @@ class SplunkContainerFactory(object):
 
 
 class SplunkContainer(object):
-    def __init__(self, cid, detail):
+    def __init__(self, cid, role, detail):
         self.cid = cid
+        self.role = role
         self.name = detail["Name"][1:]
         self.internal_ip = detail["NetworkSettings"]["IPAddress"]
         self.port_mapping = {}
@@ -95,6 +96,14 @@ class SplunkContainer(object):
         return "%s,%s,%s" % (self.name, self.cid, self.port_mapping)
 
     __repr__ = __str__
+
+    def to_dict(self):
+        return {
+            "cid": self.cid,
+            "internal_ip": self.internal_ip,
+            "name": self.name,
+            "port_mapping": ",".join(["%s->%s" % (k, v) for k, v in self.port_mapping.items()])
+        }
 
 
 if __name__ == "__main__":

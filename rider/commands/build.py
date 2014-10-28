@@ -38,7 +38,13 @@ class BuildCommand(Command):
             options, arg_else = self.parse_args(args)
         except BadOptionError:
             self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
-            sys.exit(1)
+            return
+
+        # check the image whether existed
+        result = self.docker_client.images(name=options.image_name)
+        if len(result) > 0:
+            self.logger.warn("the image already existed , pls first delete the image then try to build it ")
+            return
 
         try:
             temp_build_path = tempfile.mkdtemp()
@@ -55,6 +61,8 @@ class BuildCommand(Command):
             for result in yield_result:
                 if not len(result) == 0:
                     self.logger.info(result[:-1])
-            print 11
+
+            self.logger.warn("successfully build the image %s" % options.image_name)
         finally:
-            pass
+            os.remove(temp_build_path)
+            self.logger.info("remove the dockerbuild folder %s " % temp_build_path)

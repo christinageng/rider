@@ -56,8 +56,8 @@ class Command(object):
 
         try:
             self.run(args)
-        except Exception, e:
-            print e
+        except Exception:
+            self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
             sys.exit(1)
         except KeyboardInterrupt:
             sys.exit(1)

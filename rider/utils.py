@@ -11,6 +11,11 @@ try:
 except ImportError:
     from StringIO import StringIO
 
+try:
+    from cPickle import load, dump
+except ImportError:
+    from pickle import load, dump
+
 TRUE_BOOLEAN = ("YES", "Y")
 FALSE_BOOLEAN = ("NO", "N")
 
@@ -94,4 +99,19 @@ def health_check(host, port, timeout, https=True):
             time.sleep(2)
     else:
         return False
+
+
+def write_json_fd(dist, fpath):
+    if os.path.exists(fpath):
+        os.remove(fpath)
+    f = open(fpath, "wb")
+    dump(dist, f)
+    f.close()
+
+
+def read_dict_fd(fpath):
+    f = open(fpath, "rb")
+    obj = load(f)
+    f.close()
+    return obj
 
