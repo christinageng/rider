@@ -41,7 +41,7 @@ class BuildCommand(Command):
             return
 
         # check the splunk file existed
-        if not os.path.exists(options.splunk_pkg):
+        if not options.splunk_pkg or not os.path.exists(options.splunk_pkg):
             self.logger.warn("please specify the splunk.tgz file path")
             return
 
