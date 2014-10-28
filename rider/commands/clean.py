@@ -17,12 +17,16 @@ class CleanCommand(Command):
     def run(self, args):
         if os.path.exists(KNIGHT_FILE):
             container_infos = read_dict_fd(os.path.abspath(KNIGHT_FILE))
+            can_delete = True
             for key in container_infos.keys():
                 for container in container_infos[key]:
                     try:
                         self.docker_client.stop(container["cid"], timeout=5 * 60)
-                        self.docker_client.remove_container(container["cid"], v=True, link=True, force=True)
+                        self.docker_client.remove_container(container["cid"], v=True, force=True)
                         self.logger.error("successfully to remove the container [%s]" % container["name"])
                     except:
                         self.logger.error("fail to remove the container [%s]" % container["name"])
-            os.remove(os.path.abspath(KNIGHT_FILE))
+                        can_delete = False
+
+            if can_delete:
+                os.remove(os.path.abspath(KNIGHT_FILE))
