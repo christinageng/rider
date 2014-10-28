@@ -7,3 +7,5 @@ $LICENSE_FILE
 /tmp/splunk/bin/splunk restart
 /tmp/splunk/bin/splunk edit licenser-groups Enterprise -is_active 1 -auth admin:notchangeme 
 /tmp/splunk/bin/splunk stop -f
+
+echo "finish subtask configuration"

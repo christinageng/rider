@@ -5,6 +5,7 @@ from optparse import Option, BadOptionError
 
 import os
 from rider.commands.base import Command
+from rider.container import DockerClientFactory
 
 
 class BuildCommand(Command):
@@ -30,6 +31,7 @@ class BuildCommand(Command):
             help="the new name of the image"
         ))
 
+        self.docker_client = DockerClientFactory.get_docker_client()
 
     def run(self, args):
         try:
@@ -38,7 +40,21 @@ class BuildCommand(Command):
             self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
             sys.exit(1)
 
-        temp_build_path = tempfile.mkdtemp()
-        docker_build_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dockerbuild"))
+        try:
+            temp_build_path = tempfile.mkdtemp()
+            temp_dockerbuild_path = os.path.join(temp_build_path, "dockerbuild")
+            docker_build_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "dockerbuild"))
 
-        shutil.copytree(os.path.join(docker_build_path, "cluster"), os.path.join(temp_build_path, "cluster"))
+            # prepare the build environment
+            shutil.copytree(os.path.join(docker_build_path), os.path.join(temp_build_path, "dockerbuild"))
+            shutil.copyfile(options.splunk_pkg, os.path.join(temp_build_path, "dockerbuild", "splunk.tgz"))
+
+            # build the image
+            yield_result = self.docker_client.build(path=temp_dockerbuild_path, tag="mark/splunk",
+                                                    stream=True, rm=True)
+            for result in yield_result:
+                if not len(result) == 0:
+                    self.logger.info(result[:-1])
+            print 11
+        finally:
+            pass

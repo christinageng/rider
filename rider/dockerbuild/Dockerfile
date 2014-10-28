@@ -5,6 +5,7 @@ RUN tar zxvf splunk.tgz
 VOLUME /splunkdb
 RUN echo "SPLUNK_DB = /splunkdb" >> splunk/etc/splunk-launch.conf.default
 COPY run.sh /tmp/run.sh
+ENV ROOT_PASS password
 ADD cluster /tmp/cluster
 ADD set_root_pw.sh /tmp/set_root_pw.sh
 RUN chmod +x /tmp/cluster/*

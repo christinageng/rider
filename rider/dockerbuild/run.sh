@@ -21,7 +21,6 @@ if [ ! -f /.root_pw_set ]; then
         /set_root_pw.sh
 fi
 
-
-
-/tmp/splunk/bin/splunk start && exec /usr/sbin/sshd -D && sh -c "while true;do sleep 10;done"
+echo "I am splunk coreqa engineer"
+/tmp/splunk/bin/splunk start && exec /usr/sbin/sshd -D && sh -c "while true;do echo i am here;sleep 60;done"
                                  
