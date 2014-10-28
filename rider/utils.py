@@ -79,9 +79,9 @@ def health_check(host, port, timeout, https=True):
     start_time = time.time()
     while (time.time() - start_time) < timeout:
         if https:
-            conn = httplib.HTTPSConnection(host, port)
+            conn = httplib.HTTPSConnection(host, int(port))
         else:
-            conn = httplib.HTTPConnection(host, port)
+            conn = httplib.HTTPConnection(host, int(port))
 
         try:
             conn.request("GET", "/")

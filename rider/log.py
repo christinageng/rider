@@ -278,3 +278,6 @@ class Logger(object):
 
 
 logger = Logger()
+logger.add_consumers(
+    (logger.VERBOSE_DEBUG, sys.stdout),
+)

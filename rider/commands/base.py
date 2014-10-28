@@ -35,9 +35,6 @@ class Command(object):
 
         # set logger
         self.logger = logger
-        logger.add_consumers(
-            (logger.VERBOSE_DEBUG, sys.stdout),
-        )
 
     def setup_logging(self):
         pass

@@ -1,10 +1,17 @@
 import sys
-import time
 from optparse import Option, BadOptionError
 
 import os
 from rider.commands.base import Command
-from rider.docker import docker_client
+from rider.container import SplunkContainerFactory
+
+
+ROLE = {
+    "MASTER": "master",
+    "LICENSEMASTER": "licensemaster",
+    "INDEXER": "indexer",
+    "SEARCHHEAD": "sh"
+}
 
 
 class ProvisionCommand(Command):
@@ -25,23 +32,23 @@ class ProvisionCommand(Command):
             '--indexer-num',
             dest='indexer_num',
             action='store',
-            default=None,
+            default='3',
             help="the cluster indexer number"))
 
         self.parser.add_option(Option(
             '--sh-num',
             dest='sh_num',
             action='store',
-            default=None,
+            default='1',
             help="the cluster sh number"
         ))
 
         self.parser.add_option(Option(
             '--image-name',
-            dest='image-name',
-            action='10.66.128.203:49154/coreqa/splunk:clustering',
-            default=None,
-            help="the cluster sh number"
+            dest='image_name',
+            action='store',
+            default='10.66.128.203:49153/coreqa/splunk:clustering',
+            help="the image name"
         ))
 
     def run(self, args):
@@ -51,69 +58,35 @@ class ProvisionCommand(Command):
             self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
             sys.exit(1)
 
-        dc = docker_client()
-        rand_timestamp = str(int((time.time())))
-        master_name = 'master_' + rand_timestamp
-        lc_master_name = "licensemaster_" + rand_timestamp
+        scf = SplunkContainerFactory()
 
-        self.logger.info("Creating Cluster-Master node start")
+        # create master node
+        master_name, container = scf.create_container(image=options.image_name, role=ROLE["MASTER"],
+                                                      command="master")
 
-        rid = dc.create_container('coreqa/splunk', command="master", hostname=None, user=None,
-                                  detach=False, stdin_open=False, tty=False, mem_limit=0,
-                                  ports=None, environment=None, dns=None, volumes=None,
-                                  volumes_from=None, network_disabled=False, name=master_name,
-                                  entrypoint=None, cpu_shares=None, working_dir=None,
-                                  memswap_limit=0)
-
-        dc.start(rid["Id"], publish_all_ports=True)
-        self.logger.info("Creating Cluster-Master node finished")
-
-        # create license master
+        # create license master node
         license_path = os.path.dirname(options.license_file)
         license_file_name = os.path.basename(options.license_file)
-
-        self.logger.info("Creating license-Master node start")
-
-        rid = dc.create_container('coreqa/splunk', command="lm", hostname=None, user=None,
-                                  detach=False, stdin_open=False, tty=False, mem_limit=0,
-                                  ports=None, environment=['LICENSE_FILE=/license/' + license_file_name], dns=None,
-                                  volumes=['/license'],
-                                  volumes_from=None, network_disabled=False, name=lc_master_name,
-                                  entrypoint=None, cpu_shares=None, working_dir=None,
-                                  memswap_limit=0)
-
-        dc.start(rid["Id"], binds={license_path:
-                                       {
-                                           'bind': '/license',
-                                           'ro': False
-                                       }}, publish_all_ports=True)
-        self.logger.info("Creating license-Master node finish")
-
-        # create cluster indexer
-
+        license_master_name, container = scf.create_container(image=options.image_name, role=ROLE["LICENSEMASTER"],
+                                                              command="lm",
+                                                              environment=[
+                                                                  'LICENSE_FILE=/license/' + license_file_name],
+                                                              binds={license_path:
+                                                                         {
+                                                                             'bind': '/license',
+                                                                             'ro': False}})
+        # create indexer
         for i in range(0, int(options.indexer_num)):
-            self.logger.info("Creating cluster-indexer start")
-            rid = dc.create_container('coreqa/splunk', command="indexer", hostname=None, user=None,
-                                      detach=False, stdin_open=False, tty=False, mem_limit=0,
-                                      ports=None, environment=None, dns=None, volumes=None,
-                                      volumes_from=None, network_disabled=False, name=None,
-                                      entrypoint=None, cpu_shares=None, working_dir=None,
-                                      memswap_limit=0)
-
-            dc.start(rid["Id"], links=[(lc_master_name, 'licensemaster'), (master_name, 'master')],
-                     publish_all_ports=True)
-            self.logger.info("Creating cluster-indexer finish")
+            container_name, container = scf.create_container(image=options.image_name, role=ROLE["INDEXER"],
+                                                             command="indexer",
+                                                             links=[(license_master_name, 'licensemaster'),
+                                                                    (master_name, 'master')]
+            )
 
         # create search head
         for i in range(0, int(options.sh_num)):
-            self.logger.info("Creating cluster-search heard start")
-            rid = dc.create_container('coreqa/splunk', command="sh", hostname=None, user=None,
-                                      detach=False, stdin_open=False, tty=False, mem_limit=0,
-                                      ports=None, environment=None, dns=None, volumes=None,
-                                      volumes_from=None, network_disabled=False, name=None,
-                                      entrypoint=None, cpu_shares=None, working_dir=None,
-                                      memswap_limit=0)
-
-            dc.start(rid["Id"], links=[(lc_master_name, 'licensemaster'), (master_name, 'master')],
-                     publish_all_ports=True)
-            self.logger.info("Creating cluster-search heard finish")
+            container_name, container = scf.create_container(image=options.image_name, role=ROLE["SEARCHHEAD"],
+                                                             command="sh",
+                                                             links=[(license_master_name, 'licensemaster'),
+                                                                    (master_name, 'master')]
+            )
