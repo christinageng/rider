@@ -71,7 +71,7 @@ class ProvisionCommand(Command):
         # create master node
         master_name, container = scf.create_container(image=options.image_name, role=ROLE["MASTER"],
                                                       command="master")
-        self.write_container_info_to_dict(cluster_info, container)
+        write_container_info_to_dict(cluster_info, container)
         # create license master node only when specify the license file
         if options.license_file:
             license_path = os.path.dirname(options.license_file)
@@ -85,7 +85,7 @@ class ProvisionCommand(Command):
                                                                                  'bind': '/license',
                                                                                  'ro': False}})
             time.sleep(8)  # some work round
-            self.write_container_info_to_dict(cluster_info, container)
+            write_container_info_to_dict(cluster_info, container)
 
         # decide the links if the license_master is not existed
         links = [(master_name, 'master')] if not options.license_file else [(license_master_name, 'lm'),

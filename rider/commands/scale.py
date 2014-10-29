@@ -55,9 +55,10 @@ class ScaleCommand(Command):
 
         container_infos = read_dict_fd(os.path.abspath(KNIGHT_FILE))
 
-        master_name = container_infos[
-            ROLE["MASTER"]]  # if the KeyError happend , there maybe a problem in the previous environment
-        license_master_name = container_infos.get(ROLE["LICENSEMASTER"], None)
+        # if the KeyError happend , there maybe a problem in the previous environment
+        master_name = container_infos[ROLE["MASTER"]][0]["name"]
+        license_master = container_infos.get(ROLE["LICENSEMASTER"], None)
+        license_master_name = license_master[0]["name"] if license_master else None
 
         links = [(master_name, 'master')] if not license_master_name else [(license_master_name, 'lm'),
                                                                            (master_name, 'master')]
@@ -72,8 +73,8 @@ class ScaleCommand(Command):
                 container_name, container = scf.create_container(image=options.image_name, role=ROLE["INDEXER"],
                                                                  command="sh",
                                                                  links=links)
-            time.sleep(4)  # some work round
-            write_container_info_to_dict(container_infos, container)
+                time.sleep(4)  # some work round
+                write_container_info_to_dict(container_infos, container)
 
         current_sh_number = len(container_infos.get(ROLE["SEARCHHEAD"], []))
         if current_sh_number >= int(options.sh_num):
@@ -85,8 +86,8 @@ class ScaleCommand(Command):
                 container_name, container = scf.create_container(image=options.image_name, role=ROLE["SEARCHHEAD"],
                                                                  command="sh",
                                                                  links=links)
-            time.sleep(4)
-            write_container_info_to_dict(container_infos, container)
+                time.sleep(4)
+                write_container_info_to_dict(container_infos, container)
 
         write_json_fd(container_infos, os.path.abspath(KNIGHT_FILE))
 
