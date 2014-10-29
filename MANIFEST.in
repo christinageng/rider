@@ -1,2 +1,2 @@
 include rider/dockerbuild/*
-include rider/dokcerbuild/cluster/*
+include rider/dockerbuild/cluster/*
