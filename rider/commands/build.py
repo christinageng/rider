@@ -44,7 +44,7 @@ class BuildCommand(Command):
             return
 
         # check the image whether existed
-        if not check_image_existed(image_name=options.image_name):
+        if check_image_existed(image_name=options.image_name):
             self.logger.error("the image already existed , pls first delete the image then try to build it ")
             return
 
