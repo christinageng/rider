@@ -5,7 +5,7 @@ from optparse import Option, BadOptionError
 
 import os
 from rider.commands.base import Command
-from rider.container import check_image_existed
+from rider.container import check_image_existed, DockerClientFactory
 
 
 class BuildCommand(Command):
@@ -30,6 +30,8 @@ class BuildCommand(Command):
             default="10.66.128.203:49153/coreqa/splunk:clustering",
             help="the new name of the image"
         ))
+
+        self.docker_client = DockerClientFactory.get_docker_client()
 
     def run(self, args):
         try:
