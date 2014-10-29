@@ -51,13 +51,20 @@ class ProvisionCommand(Command):
             options, arg_else = self.parse_args(args)
         except BadOptionError:
             self.logger.error("ERROR: %s" % str(sys.exc_info()[1]))
-            sys.exit(1)
+            return
 
         # check the environment existed
         if os.path.exists(os.path.abspath(KNIGHT_FILE)):
             self.logger.error(
                 "There maybe an environment here currently , please remove the environment first \n"
                 "or you can create the cluster in another folder")
+            return
+
+        # check the image existed
+        result = self.docker_client.images(name=options.image_name)
+        if len(result) == 0:
+            self.logger.error(
+                "the image not existed , pls use docker pull %s or knight build to build the image" % options.image_name)
             return
 
         scf = SplunkContainerFactory()

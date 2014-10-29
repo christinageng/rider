@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from rider.version import version_number
 
 setup(
     name='rider',
-    version="0.0.1",
+    version=version_number(),
     url='https://github.com/marksplk/rider',
     license='MIT',
     author='jackWang,markShao',
