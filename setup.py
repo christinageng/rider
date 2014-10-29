@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
-from rider.version import version_number
 
 setup(
-    name='rider',
-    version=version_number(),
+    name='pony-rider',
+    version="0.0.1",
     url='https://github.com/marksplk/rider',
     license='MIT',
     author='jackWang,markShao',
