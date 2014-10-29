@@ -7,7 +7,7 @@ setup(
     license='MIT',
     author='jackWang,markShao',
     author_email='jackw@splunk.com',
-    description='',
+    description='pony in cloud',
     scripts=['bin/knight'],
     classifiers=[
         "Programming Language :: Python",
