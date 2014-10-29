@@ -71,7 +71,7 @@ class ScaleCommand(Command):
             self.logger.error("scale indexer from %s -> %s" % (current_indexer_number, options.indexer_num))
             for i in range(int(options.indexer_num) - current_indexer_number):
                 container_name, container = scf.create_container(image=options.image_name, role=ROLE["INDEXER"],
-                                                                 command="sh",
+                                                                 command="indexer",
                                                                  links=links)
                 time.sleep(4)  # some work round
                 write_container_info_to_dict(container_infos, container)
