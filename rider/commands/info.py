@@ -9,13 +9,13 @@ headers = ["Role", "Name", "Internal IPAddress", "Port Mapping", "Splunk Authent
 SEQUENCE = [ROLE["MASTER"], ROLE["LICENSEMASTER"], ROLE["INDEXER"], ROLE["SEARCHHEAD"]]
 
 
-class StatusCommand(Command):
-    name = "status"
+class InfoCommand(Command):
+    name = "info"
     usage = """%prog """
-    summary = "show status of the current cluster environment"
+    summary = "show info of the current cluster environment"
 
     def __init__(self):
-        super(StatusCommand, self).__init__()
+        super(InfoCommand, self).__init__()
 
     def run(self, args):
         if os.path.exists(KNIGHT_FILE):

@@ -27,14 +27,14 @@ class ProvisionCommand(Command):
             '--indexer-num',
             dest='indexer_num',
             action='store',
-            default='3',
+            default='2',
             help="the cluster indexer number"))
 
         self.parser.add_option(Option(
             '--sh-num',
             dest='sh_num',
             action='store',
-            default='2',
+            default='1',
             help="the cluster sh number"
         ))
 

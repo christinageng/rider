@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='pony-rider',
-    version="0.0.9",
+    version="0.0.10",
     url='https://github.com/marksplk/rider',
     license='MIT',
-    author='jackWang,markShao',
+    author='jackwang,markshao',
     author_email='jackw@splunk.com',
     description='pony in cloud',
-    scripts=['bin/knight'],
+    scripts=['bin/rider'],
     classifiers=[
         "Programming Language :: Python",
     ],
