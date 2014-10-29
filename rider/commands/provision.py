@@ -6,7 +6,7 @@ import os
 from rider.commands.base import Command
 from rider.container import SplunkContainerFactory, check_image_existed
 from rider.config import ROLE, KNIGHT_FILE
-from rider.utils import write_json_fd
+from rider.utils import write_json_fd, write_container_info_to_dict
 
 
 class ProvisionCommand(Command):
@@ -84,7 +84,7 @@ class ProvisionCommand(Command):
                                                                              {
                                                                                  'bind': '/license',
                                                                                  'ro': False}})
-            time.sleep(5)  # some work round
+            time.sleep(8)  # some work round
             self.write_container_info_to_dict(cluster_info, container)
 
         # decide the links if the license_master is not existed
@@ -96,21 +96,15 @@ class ProvisionCommand(Command):
                                                              command="indexer",
                                                              links=links
             )
-            time.sleep(3)  # some work round
-            self.write_container_info_to_dict(cluster_info, container)
+            time.sleep(4)  # some work round
+            write_container_info_to_dict(cluster_info, container)
 
         # create search head
         for i in range(0, int(options.sh_num)):
             container_name, container = scf.create_container(image=options.image_name, role=ROLE["SEARCHHEAD"],
                                                              command="sh",
                                                              links=links)
-            time.sleep(3)  # some work round
-            self.write_container_info_to_dict(cluster_info, container)
+            time.sleep(4)  # some work round
+            write_container_info_to_dict(cluster_info, container)
 
         write_json_fd(cluster_info, os.path.abspath(KNIGHT_FILE))
-
-    def write_container_info_to_dict(self, dic, container):
-        if not container.role in dic:
-            dic[container.role] = [container.to_dict()]
-        else:
-            dic[container.role].append(container.to_dict())

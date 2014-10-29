@@ -101,6 +101,13 @@ def health_check(host, port, timeout, https=True):
         return False
 
 
+def write_container_info_to_dict(dic, container):
+    if not container.role in dic:
+        dic[container.role] = [container.to_dict()]
+    else:
+        dic[container.role].append(container.to_dict())
+
+
 def write_json_fd(dist, fpath):
     if os.path.exists(fpath):
         os.remove(fpath)
