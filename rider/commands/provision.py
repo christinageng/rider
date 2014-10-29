@@ -61,7 +61,7 @@ class ProvisionCommand(Command):
             return
 
         # check the image existed
-        if not check_image_existed(name=options.image_name):
+        if not check_image_existed(image_name=options.image_name):
             self.logger.error(
                 "the image not existed , pls use docker pull %s or knight build to build the image" % options.image_name)
             return
