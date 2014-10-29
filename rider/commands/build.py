@@ -5,7 +5,7 @@ from optparse import Option, BadOptionError
 
 import os
 from rider.commands.base import Command
-from rider.container import DockerClientFactory
+from rider.container import check_image_existed
 
 
 class BuildCommand(Command):
@@ -31,8 +31,6 @@ class BuildCommand(Command):
             help="the new name of the image"
         ))
 
-        self.docker_client = DockerClientFactory.get_docker_client()
-
     def run(self, args):
         try:
             options, arg_else = self.parse_args(args)
@@ -46,8 +44,7 @@ class BuildCommand(Command):
             return
 
         # check the image whether existed
-        result = self.docker_client.images(name=options.image_name)
-        if len(result) > 0:
+        if not check_image_existed(name=options.image_name):
             self.logger.error("the image already existed , pls first delete the image then try to build it ")
             return
 

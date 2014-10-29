@@ -106,6 +106,23 @@ class SplunkContainer(object):
         }
 
 
+def check_image_existed(image_name):
+    docker_client = DockerClientFactory.get_docker_client()
+    symbol = image_name.rfind(":")
+    if symbol == -1:
+        repo_name = image_name
+        image_name = "%s:latest" % image_name
+    else:
+        repo_name = image_name[:symbol]
+
+    results = docker_client.images(name=repo_name)
+    for result in results:
+        if result["RepoTags"][0] == image_name:
+            return True
+    return False
+
+
 if __name__ == "__main__":
-    c = SplunkContainerFactory()
-    print c.create_container(image="10.66.128.203:49153/coreqa/splunk:clustering", role="master", command="master")
+    docker_container = DockerClientFactory.get_docker_client()
+    result = check_image_existed(image_name="busybox:afdsf")
+    print result

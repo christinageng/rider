@@ -4,7 +4,7 @@ import time
 
 import os
 from rider.commands.base import Command
-from rider.container import SplunkContainerFactory
+from rider.container import SplunkContainerFactory, check_image_existed
 from rider.config import ROLE, KNIGHT_FILE
 from rider.utils import write_json_fd
 
@@ -61,8 +61,7 @@ class ProvisionCommand(Command):
             return
 
         # check the image existed
-        result = self.docker_client.images(name=options.image_name)
-        if len(result) == 0:
+        if not check_image_existed(name=options.image_name):
             self.logger.error(
                 "the image not existed , pls use docker pull %s or knight build to build the image" % options.image_name)
             return
