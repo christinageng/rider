@@ -3,13 +3,15 @@ from rider.commands.clean import CleanCommand
 from rider.commands.provision import ProvisionCommand
 from rider.commands.info import InfoCommand
 from rider.commands.scale import ScaleCommand
+from rider.commands.create import CreateCommand
 
 commands = {
     BuildCommand.name: BuildCommand,
     CleanCommand.name: CleanCommand,
     ProvisionCommand.name: ProvisionCommand,
     InfoCommand.name: InfoCommand,
-    ScaleCommand.name: ScaleCommand
+    ScaleCommand.name: ScaleCommand,
+    CreateCommand.name: CreateCommand
 }
 
 
