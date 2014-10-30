@@ -65,7 +65,7 @@ class ScaleCommand(Command):
 
         current_indexer_number = len(container_infos.get(ROLE["INDEXER"], []))
         if current_indexer_number >= int(options.indexer_num):
-            self.logger.info("current indexer num [%s] is bigger then the target" % current_indexer_number)
+            self.logger.info("current indexer num [%s] is bigger/equal than the target" % current_indexer_number)
         else:
             scf = SplunkContainerFactory()
             self.logger.error("scale indexer from %s -> %s" % (current_indexer_number, options.indexer_num))
@@ -78,7 +78,7 @@ class ScaleCommand(Command):
 
         current_sh_number = len(container_infos.get(ROLE["SEARCHHEAD"], []))
         if current_sh_number >= int(options.sh_num):
-            self.logger.info("current search head num [%s] is bigger then the target" % current_sh_number)
+            self.logger.info("current search head num [%s] is bigger/equal than the target" % current_sh_number)
         else:
             scf = SplunkContainerFactory()
             self.logger.error("scale search head from %s -> %s" % (current_sh_number, options.sh_num))
