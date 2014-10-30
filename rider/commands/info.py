@@ -4,7 +4,7 @@ from rider.commands.base import Command
 from rider.config import KNIGHT_FILE, ROLE
 from rider.utils import read_dict_fd
 
-headers = ["Role", "Name", "Internal IPAddress", "Port Mapping", "Splunk Authentication", "SSH Authentication"]
+headers = ["Role", "Name", "Internal IPAddress", "Port Mapping", "Splunk Authentication", "SSH Authentication","Image Name"]
 
 SEQUENCE = [ROLE["MASTER"], ROLE["LICENSEMASTER"], ROLE["INDEXER"], ROLE["SEARCHHEAD"]]
 
@@ -30,6 +30,8 @@ class InfoCommand(Command):
                     table.append(container["port_mapping"])
                     table.append("admin/notchangeme")
                     table.append("root/password")
+                    table.append(container["image_name"])
+
                     table_data.append(table)
         else:
             table_data = []

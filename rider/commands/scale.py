@@ -36,7 +36,7 @@ class ScaleCommand(Command):
             '--image-name',
             dest='image_name',
             action='store',
-            default='10.66.128.203:49153/coreqa/splunk',
+            default='10.66.128.203:49153/coreqa/splunk:latest',
             help="the image name"
         ))
 

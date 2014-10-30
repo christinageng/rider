@@ -42,7 +42,7 @@ class ProvisionCommand(Command):
             '--image-name',
             dest='image_name',
             action='store',
-            default='10.66.128.203:49153/coreqa/splunk',
+            default='10.66.128.203:49153/coreqa/splunk:latest',
             help="the image name"
         ))
 
@@ -63,7 +63,7 @@ class ProvisionCommand(Command):
         # check the image existed
         if not check_image_existed(image_name=options.image_name):
             self.logger.error(
-                "the image not existed , pls use docker pull %s or knight build to build the image" % options.image_name)
+                "the image not existed , pls use docker pull %s or rider build to build the image" % options.image_name)
             return
 
         scf = SplunkContainerFactory()
