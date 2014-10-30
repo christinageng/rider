@@ -21,14 +21,14 @@ class ScaleCommand(Command):
             '--indexer-num',
             dest='indexer_num',
             action='store',
-            default='3',
+            default='2',
             help="the cluster indexer number"))
 
         self.parser.add_option(Option(
             '--sh-num',
             dest='sh_num',
             action='store',
-            default='2',
+            default='1',
             help="the cluster sh number"
         ))
 
@@ -36,7 +36,7 @@ class ScaleCommand(Command):
             '--image-name',
             dest='image_name',
             action='store',
-            default='10.66.128.203:49153/coreqa/splunk:clustering',
+            default='10.66.128.203:49153/coreqa/splunk',
             help="the image name"
         ))
 

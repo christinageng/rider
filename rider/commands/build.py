@@ -27,7 +27,7 @@ class BuildCommand(Command):
             '--image-name',
             dest='image_name',
             action='store',
-            default="10.66.128.203:49153/coreqa/splunk:clustering",
+            default="10.66.128.203:49153/coreqa/splunk",
             help="the new name of the image"
         ))
 

@@ -274,7 +274,7 @@ class Logger(object):
         self.consumers.extend(to_add)
 
     def prefix_msg_wrapper(self, msg):
-        return "[knight] %s" % msg
+        return "[rider] %s" % msg
 
 
 logger = Logger()
