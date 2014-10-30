@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pony-rider',
-    version="0.0.12",
+    version="0.0.13",
     url='https://github.com/marksplk/rider',
     license='MIT',
     author='jackwang,markshao',
