@@ -10,7 +10,7 @@ from rider.utils import write_json_fd, write_container_info_to_dict
 
 
 class ProvisionCommand(Command):
-    name = "provision"
+    name = "provision-cluster"
     usage = """%prog """
     summary = "provision the cluster environment according to the parameters"
 

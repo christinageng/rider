@@ -11,16 +11,16 @@ from rider.utils import write_json_fd, read_dict_fd, write_container_info_to_dic
 
 
 class CreateCommand(Command):
-    name = "create"
+    name = "provision-single"
     usage = """%prog """
-    summary = "create the single splunk instance according to the parameters"
+    summary = "provision the single splunk instance according to the parameters"
 
     def __init__(self):
         super(CreateCommand, self).__init__()
 
         self.parser.add_option(Option(
-            '--singleinstance-num',
-            dest='singleinstance_num',
+            '--single-num',
+            dest='single_num',
             action='store',
             default='1',
             help="the single instance number"))
@@ -58,9 +58,9 @@ class CreateCommand(Command):
 
         scf = SplunkContainerFactory()
         # create indexer
-        for i in range(0, int(options.singleinstance_num)):
-            container_name, container = scf.create_container(image=options.image_name, role=ROLE["SINGLEINSTANCE"],
-                                                             command="SINGLEINSTANCE",
+        for i in range(0, int(options.single_num)):
+            container_name, container = scf.create_container(image=options.image_name, role=ROLE["SINGLE"],
+                                                             command="SINGLE",
             )
             time.sleep(4)  # some work round
             write_container_info_to_dict(container_infos, container)

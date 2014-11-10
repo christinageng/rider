@@ -6,5 +6,5 @@ ROLE = {
     "LICENSEMASTER": "licensemaster",
     "INDEXER": "indexer",
     "SEARCHHEAD": "sh",
-    "SINGLEINSTANCE":"singleinstance"
+    "SINGLE":"single"
 }

@@ -11,7 +11,7 @@ from rider.utils import read_dict_fd
 headers = ["Role", "Name", "Internal IPAddress", "Port Mapping", "Splunk Authentication", "SSH Authentication","Image Name"]
 
 SEQUENCE = [ROLE["MASTER"], ROLE["LICENSEMASTER"], ROLE["INDEXER"], ROLE["SEARCHHEAD"]]
-SEQUENCE_SINGLE = [ROLE["SINGLEINSTANCE"]]
+SEQUENCE_SINGLE = [ROLE["SINGLE"]]
 
 
 class InfoCommand(Command):

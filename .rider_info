@@ -1,0 +1,21 @@
+{
+    "env_1_cluster":{
+                "type":"cluster",
+                "containers" : {
+                    "cid" :{
+                        "role":"master"
+                    }
+                }
+
+             },
+
+    "env_2_single" : {
+         "type":"single",
+                "containers" : {
+                    "cid" :{
+                        "role":"single"
+                    }
+                }
+
+    }
+}
