@@ -1,10 +1,11 @@
+import sys
+from optparse import Option, BadOptionError
+
 import os
 from tabulate import tabulate
 from rider.commands.base import Command
 from rider.config import KNIGHT_FILE, ROLE,KNIGHT_FILE_SINGLE
 from rider.utils import read_dict_fd
-from optparse import Option, BadOptionError
-
 
 
 headers = ["Role", "Name", "Internal IPAddress", "Port Mapping", "Splunk Authentication", "SSH Authentication","Image Name"]
