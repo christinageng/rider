@@ -60,8 +60,8 @@ class InfoCommand(Command):
                     table.append(container["image_name"])
 
                     table_data.append(table)
-        else:
-            table_data = []
+
+
 
         # read info from single env
         if os.path.exists(KNIGHT_FILE_SINGLE) and (options.env_name.lower()=='single' or options.env_name.lower()=='all'):
@@ -78,8 +78,7 @@ class InfoCommand(Command):
                     table.append(container["image_name"])
 
                     table_data.append(table)
-        else:
-            table_data = []
+
 
 
 
