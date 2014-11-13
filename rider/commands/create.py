@@ -19,8 +19,8 @@ class CreateCommand(Command):
         super(CreateCommand, self).__init__()
 
         self.parser.add_option(Option(
-            '--single-num',
-            dest='single_num',
+            '--instance-num',
+            dest='instance_num',
             action='store',
             default='1',
             help="the single instance number"))
@@ -58,7 +58,7 @@ class CreateCommand(Command):
 
         scf = SplunkContainerFactory()
         # create indexer
-        for i in range(0, int(options.single_num)):
+        for i in range(0, int(options.instance_num)):
             container_name, container = scf.create_container(image=options.image_name, role=ROLE["SINGLE"],
                                                              command="SINGLE",
             )
